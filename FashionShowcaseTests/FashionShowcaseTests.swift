@@ -6,7 +6,8 @@
 //  Copyright © 2019 Tinkerskull. All rights reserved.
 //
 
-import XCTest
+import Quick
+import Nimble
 @testable import FashionShowcase
 
 class FashionShowcaseTests: XCTestCase {
