@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+protocol ProductsAPI {
+    func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void)
+}
+
+class APIWrapper {
+    
+}

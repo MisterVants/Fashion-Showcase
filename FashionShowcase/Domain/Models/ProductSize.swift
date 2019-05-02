@@ -6,4 +6,17 @@
 //  Copyright © 2019 Tinkerskull. All rights reserved.
 //
 
-import Foundation
+struct ProductSize: Codable {
+    let isAvailable: Bool
+    let size: String
+    let stockKeepingUnit: String
+}
+
+extension ProductSize {
+    
+    enum CodingKeys: String, CodingKey {
+        case isAvailable = "available"
+        case size
+        case stockKeepingUnit = "sku"
+    }
+}

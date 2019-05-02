@@ -6,4 +6,6 @@
 //  Copyright © 2019 Tinkerskull. All rights reserved.
 //
 
-import Foundation
+struct ProductsDto: Codable {
+    let products: [Product]
+}

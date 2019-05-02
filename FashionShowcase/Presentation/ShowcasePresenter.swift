@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+protocol ShowcasePresenter {
+    
+}
+
+class ShowcaseViewPresenter {
+    
+}

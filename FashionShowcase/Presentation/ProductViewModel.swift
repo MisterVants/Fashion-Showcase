@@ -7,3 +7,24 @@
 //
 
 import Foundation
+
+protocol ProductViewModel {
+    var productName: String {get}
+    var regularPrice: String {get}
+    var promotionalPrice: String {get}
+    var isProductOnSale: Bool {get}
+//    var availableSizes: []
+    var productImageData: Reactive<Data?> {get}
+    var isLoadingImage: Reactive<Bool> {get}
+}
+
+extension Product {
+    class ViewModel {
+        
+        let product: Product
+        
+        init(from product: Product) {
+            self.product = product
+        }
+    }
+}
