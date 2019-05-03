@@ -18,6 +18,22 @@ class NetworkClient {
         self.cache = URLCache(memoryCapacity: 5 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
     }
     
+    func get<T: Decodable>(_ type: T.Type, url: URL, completion: @escaping (Result<T, FSError>) -> Void) {
+        getData(at: url) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(decodedData))
+                } catch let decodeError {
+                    completion(.failure(FSError.jsonDecodeFailed(decodeError)))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
     func getData(at url: URL, completion: @escaping (Result<Data, FSError>) -> Void) {
         
         var urlRequest = URLRequest(url: url)

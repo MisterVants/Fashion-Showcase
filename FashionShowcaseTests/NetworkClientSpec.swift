@@ -16,17 +16,52 @@ class NetworkClientSpec: QuickSpec {
     override func spec() {
         
         var targetUrl: URL!
+        var successResponse: HTTPURLResponse!
+        
         var client: NetworkClient!
         var sessionMock: URLSessionMock!
         
         beforeSuite {
             targetUrl = URL(string: "https://httpbin.org/get")
+            successResponse = HTTPURLResponse(url: targetUrl, statusCode: 200, httpVersion: nil, headerFields: nil)
         }
         
         beforeEach {
             sessionMock = URLSessionMock()
             client = NetworkClient(session: sessionMock)
             client.clearCache()
+        }
+        
+        describe("get decodable") {
+            
+            it("should callback the decoded requested object") {
+                sessionMock.taskResponse = successResponse
+                sessionMock.taskData = ProductsAPIStub().mockDecodableData()
+                waitUntil { done in
+                    client.get(ProductsDto.self, url: targetUrl, completion: { result in
+                        let decoded = try? result.get()
+                        expect(decoded).notTo(beNil())
+                        done()
+                    })
+                }
+            }
+            
+            context("when the decode fails") {
+                it("should callback a decode error") {
+                    sessionMock.taskResponse = successResponse
+                    sessionMock.taskData = "data".data(using: .utf8)
+                    waitUntil { done in
+                        client.get(ProductsDto.self, url: targetUrl, completion: { result in
+                            switch result {
+                            case .success: fail()
+                            case .failure(let error):
+                                expect(error.isDecodeError).to(beTrue())
+                            }
+                            done()
+                        })
+                    }
+                }
+            }
         }
         
         describe("response checkouts") {
@@ -80,7 +115,7 @@ class NetworkClientSpec: QuickSpec {
             
             context("when the received data is nil") {
                 it("should callback a nil data error") {
-                    sessionMock.taskResponse = HTTPURLResponse(url: targetUrl, statusCode: 200, httpVersion: nil, headerFields: nil)
+                    sessionMock.taskResponse = successResponse
                     waitUntil { done in
                         client.getData(at: targetUrl, completion: { result in
                             switch result {
@@ -96,12 +131,12 @@ class NetworkClientSpec: QuickSpec {
             
             context("when the data is valid") {
                 it("should callback a success") {
-                    sessionMock.taskResponse = HTTPURLResponse(url: targetUrl, statusCode: 200, httpVersion: nil, headerFields: nil)
+                    sessionMock.taskResponse = successResponse
                     sessionMock.taskData = "data".data(using: .utf8)
                     waitUntil { done in
                         client.getData(at: targetUrl, completion: { result in
                             let value = try? result.get()
-                            expect(value).toNot(beNil())
+                            expect(value).notTo(beNil())
                             done()
                         })
                     }

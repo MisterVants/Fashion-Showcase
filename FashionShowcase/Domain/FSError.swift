@@ -7,6 +7,7 @@
 //
 
 enum FSError: Error {
+    case malformedURL
     case networkError(Error)
     case noResponse
     case badStatusCode(Int)
@@ -33,6 +34,11 @@ extension FSError {
     
     var isNilDataError: Bool {
         if case .inputDataNil = self { return true }
+        return false
+    }
+    
+    var isDecodeError: Bool {
+        if case .jsonDecodeFailed = self { return true }
         return false
     }
 }

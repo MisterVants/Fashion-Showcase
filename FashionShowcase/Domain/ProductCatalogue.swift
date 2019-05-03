@@ -9,6 +9,7 @@
 import Foundation
 
 protocol ProductCatalogue {
+//    func getProducts(completion: @escaping )
     func setProducts(_ products: [Product])
 }
 
