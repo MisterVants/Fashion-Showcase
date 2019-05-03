@@ -8,12 +8,28 @@
 
 import Foundation
 
+typealias ProductsCallback = (Result<[Product], FSError>) -> Void
+
 protocol ProductCatalogue {
-//    func getProducts(completion: @escaping )
-    func setProducts(_ products: [Product])
+    func getProducts() -> [Product]?
+    func loadProducts(from api: ProductsAPI, completion: @escaping ProductsCallback)
 }
 
-class ProductDataStore {
+class ProductDataStore: ProductCatalogue {
     
     var products: [Product] = []
+    
+    func getProducts() -> [Product]? {
+        guard !products.isEmpty else { return nil }
+        return products
+    }
+    
+    func loadProducts(from api: ProductsAPI, completion: @escaping ProductsCallback) {
+        api.fetchProducts { result in
+            if let loadedProducts = try? result.get() {
+                self.products = loadedProducts
+            }
+            completion(result)
+        }
+    }
 }

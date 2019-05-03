@@ -101,6 +101,6 @@ extension HTTPStatusCode {
     }
     
     static func isSuccess(_ statusCode: Int) -> Bool {
-        return HTTPStatusCode(rawValue: statusCode)?.category == .success
+        return (200..<300) ~= statusCode
     }
 }
