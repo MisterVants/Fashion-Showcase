@@ -19,7 +19,6 @@ class IntegrationTests: XCTestCase {
         var products: [Product]?
         
         api.fetchProducts { result in
-            print(result)
             products = try? result.get()
             expectation.fulfill()
         }
