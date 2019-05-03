@@ -9,9 +9,10 @@
 import Foundation
 
 protocol ProductCatalogue {
-    
+    func setProducts(_ products: [Product])
 }
 
 class ProductDataStore {
     
+    var products: [Product] = []
 }
