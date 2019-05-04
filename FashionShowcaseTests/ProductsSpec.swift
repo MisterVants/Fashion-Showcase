@@ -25,6 +25,13 @@ class ProductsSpec: QuickSpec {
             it("is correctly decoded from raw data") {
                 expect(products).toNot(beEmpty())
             }
+            
+            describe("price values") {
+                it("formatter should successfully convert the price string") {
+                    expect(products.first?.actualPriceValue).notTo(beNil())
+                    expect(products.first?.regularPriceValue).notTo(beNil())
+                }
+            }
         }
     }
 }

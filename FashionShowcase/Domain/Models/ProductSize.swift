@@ -20,3 +20,5 @@ extension ProductSize {
         case stockKeepingUnit = "sku"
     }
 }
+
+extension ProductSize: Hashable {}

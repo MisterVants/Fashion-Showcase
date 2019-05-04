@@ -38,3 +38,17 @@ extension Product {
         case sizes
     }
 }
+
+extension Product: Hashable {}
+
+extension Product {
+    
+    var regularPriceValue: Double? {
+        return PriceFormatter.default.number(from: self.regularPrice)
+    }
+    
+    var actualPriceValue: Double? {
+        return PriceFormatter.default.number(from: self.actualPrice )
+    }
+}
+
