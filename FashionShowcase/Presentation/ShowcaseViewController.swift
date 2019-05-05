@@ -10,16 +10,11 @@ import UIKit
 
 class ShowcaseViewController: UIViewController {
     
-//    var didSelectProduct: (() -> Void)?
-    
     var presenter: ShowcasePresenter?
     
     private lazy var collectionView: UICollectionView = {
-//        let layout                      =
-//        layout.minimumInteritemSpacing  = 10
-//        layout.minimumLineSpacing       = 10
         let collectionView              = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor  = .clear
+        collectionView.backgroundColor  = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         collectionView.register(ProductCollectionViewCell.self)
         return collectionView
     }()
@@ -80,18 +75,13 @@ extension ShowcaseViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width / 2) - 15
-        let height = width * 1.3
+        let height = ProductCollectionViewCell.proportionalHeight(forWidth: width)
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return UIEdgeInsets(top: 15, left: 10, bottom: 80, right: 10)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10

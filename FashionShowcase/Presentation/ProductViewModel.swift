@@ -11,7 +11,7 @@ import Foundation
 protocol ProductViewModel {
     var productName: String {get}
     var productPrice: String {get}
-    var promotionalPrice: String {get}
+    var supplementaryPrice: NSAttributedString? {get}
     var isProductOnSale: Bool {get}
 //    var availableSizes: []
     var productImageData: Reactive<Data?> {get}
@@ -41,11 +41,18 @@ extension Product {
         }
         
         var productPrice: String {
-            return product.regularPrice
+            return product.actualPrice
         }
         
-        var promotionalPrice: String {
-            return product.actualPrice
+        var supplementaryPrice: NSAttributedString? {
+            guard
+                product.isOnSale,
+                let actualPrice = product.actualPriceValue,
+                let regularPrice = product.regularPriceValue,
+                actualPrice != regularPrice else { return nil }
+            
+            let slashedPrice = NSAttributedString(string: product.regularPrice, attributes: [NSAttributedString.Key.strikethroughStyle : 2])
+            return slashedPrice
         }
         
         var isProductOnSale: Bool {
