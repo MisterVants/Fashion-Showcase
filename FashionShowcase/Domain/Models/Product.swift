@@ -6,6 +6,8 @@
 //  Copyright © 2019 Tinkerskull. All rights reserved.
 //
 
+import Foundation
+
 struct Product: Codable {
     let name: String
     let style: String
@@ -49,6 +51,10 @@ extension Product {
     
     var actualPriceValue: Double? {
         return PriceFormatter.default.number(from: self.actualPrice )
+    }
+    
+    var imageUrl: URL? {
+        return URL(string: self.imageUrlString)
     }
 }
 

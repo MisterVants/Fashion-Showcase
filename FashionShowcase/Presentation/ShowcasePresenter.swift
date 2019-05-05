@@ -8,10 +8,76 @@
 
 import Foundation
 
-protocol ShowcasePresenter {
-    
+protocol ShowcasePresenterDelegate: AnyObject {
+    func onLoadFinish()
+    func onLoadSuccess()
+    func onAlertableError(_ title: String, message: String)
 }
 
-class ShowcaseViewPresenter {
+protocol ShowcasePresenter {
+    var numberOfDisplayedItems: Int {get}
+    func productViewModel(for indexPath: IndexPath) -> ProductViewModel?
+    func selectedItem(at indexPath: IndexPath)
+    func loadShowcase()
+}
+
+class ShowcaseViewPresenter: ShowcasePresenter {
+    
+    let api: ProductsAPI
+    let catalogue: ProductCatalogue
+    let factory: ViewModelFactory
+    
+    var didSelectProduct: (() -> Void)?
+    var didOpenShoppingCart: (() -> Void)?
+    
+    var displayedProducts: [ProductViewModel] = []
+//    var allProducts: [ProductViewModel] = []
+    var isLoading: Bool
+    
+    weak var delegate: ShowcasePresenterDelegate?
+    
+    init(catalogue: ProductCatalogue, api: ProductsAPI, factory: ViewModelFactory) {
+        self.api = api
+        self.catalogue = catalogue
+        self.factory = factory
+        self.isLoading = false
+    }
+    
+    var numberOfDisplayedItems: Int {
+        return displayedProducts.count
+    }
+    
+    func productViewModel(for indexPath: IndexPath) -> ProductViewModel? {
+        guard indexPath.row >= 0 && indexPath.row < displayedProducts.count else { return nil }
+        return displayedProducts[indexPath.row]
+    }
+    
+    func selectedItem(at indexPath: IndexPath) {
+        didSelectProduct?()
+    }
+    
+    func loadShowcase() {
+        
+//        if let products = catalogue.getProducts() {
+//
+//        } else {
+            guard !isLoading else { return }
+            isLoading = true
+            
+            catalogue.loadProducts(from: api) { [weak self] result in
+                self?.isLoading = false
+                
+                switch result {
+                case .success(let loadedProducts):
+                    self?.displayedProducts = loadedProducts.compactMap { self?.factory.makeProductViewModel(from: $0) }
+                    self?.delegate?.onLoadSuccess()
+                case .failure(let error):
+                    break
+                }
+                self?.delegate?.onLoadFinish()
+            }
+//        }
+    }
+    
     
 }

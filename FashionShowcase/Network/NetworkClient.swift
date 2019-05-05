@@ -8,7 +8,11 @@
 
 import Foundation
 
-class NetworkClient {
+protocol DataClient {
+    func getData(at url: URL, completion: @escaping (Result<Data, FSError>) -> Void)
+}
+
+class NetworkClient: DataClient {
     
     private let session: URLSessionProtocol
     private let cache: URLCache
