@@ -35,6 +35,8 @@
 		761EE3CC227F2BDF00A588C4 /* Gotham-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 761EE3C5227F2BDA00A588C4 /* Gotham-Light.otf */; };
 		761EE3CD227F2BDF00A588C4 /* Gotham-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 761EE3C7227F2BDB00A588C4 /* Gotham-Medium.otf */; };
 		761EE3CE227F2BDF00A588C4 /* Gotham-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 761EE3C8227F2BDB00A588C4 /* Gotham-Thin.otf */; };
+		761EE3D1227F7E7400A588C4 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761EE3CF227F7E7400A588C4 /* ProductDetailViewController.swift */; };
+		761EE3D2227F7E7400A588C4 /* ProductDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 761EE3D0227F7E7400A588C4 /* ProductDetailViewController.xib */; };
 		76254C7A227E668100C3B8D4 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76254C79227E668100C3B8D4 /* ProductCollectionViewCell.swift */; };
 		76254C7C227E668E00C3B8D4 /* ShowcaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76254C7B227E668E00C3B8D4 /* ShowcaseViewController.swift */; };
 		76254C7E227E695800C3B8D4 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76254C7D227E695800C3B8D4 /* UICollectionView+Extension.swift */; };
@@ -120,6 +122,8 @@
 		761EE3C7227F2BDB00A588C4 /* Gotham-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Medium.otf"; sourceTree = "<group>"; };
 		761EE3C8227F2BDB00A588C4 /* Gotham-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Thin.otf"; sourceTree = "<group>"; };
 		761EE3C9227F2BDB00A588C4 /* Gotham-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Black.otf"; sourceTree = "<group>"; };
+		761EE3CF227F7E7400A588C4 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		761EE3D0227F7E7400A588C4 /* ProductDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductDetailViewController.xib; sourceTree = "<group>"; };
 		76254C79227E668100C3B8D4 /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		76254C7B227E668E00C3B8D4 /* ShowcaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		76254C7D227E695800C3B8D4 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -176,6 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				76254C79227E668100C3B8D4 /* ProductCollectionViewCell.swift */,
+				761EE3CF227F7E7400A588C4 /* ProductDetailViewController.swift */,
+				761EE3D0227F7E7400A588C4 /* ProductDetailViewController.xib */,
 				76254C7B227E668E00C3B8D4 /* ShowcaseViewController.swift */,
 				7607EA4D227B4A2000AA36E0 /* ShowcasePresenter.swift */,
 				7607EA51227B4A7F00AA36E0 /* ProductDetailPresenter.swift */,
@@ -452,6 +458,7 @@
 				761EE3CC227F2BDF00A588C4 /* Gotham-Light.otf in Resources */,
 				761EE3CD227F2BDF00A588C4 /* Gotham-Medium.otf in Resources */,
 				761EE3CA227F2BDF00A588C4 /* Gotham-Black.otf in Resources */,
+				761EE3D2227F7E7400A588C4 /* ProductDetailViewController.xib in Resources */,
 				766011BE2279F13200C05E3D /* Assets.xcassets in Resources */,
 				761EE3CE227F2BDF00A588C4 /* Gotham-Thin.otf in Resources */,
 				766011BC2279F13000C05E3D /* Main.storyboard in Resources */,
@@ -492,6 +499,7 @@
 				76254C7C227E668E00C3B8D4 /* ShowcaseViewController.swift in Sources */,
 				7607EA5A227B4B0800AA36E0 /* FSError.swift in Sources */,
 				76254C7E227E695800C3B8D4 /* UICollectionView+Extension.swift in Sources */,
+				761EE3D1227F7E7400A588C4 /* ProductDetailViewController.swift in Sources */,
 				7607EA52227B4A7F00AA36E0 /* ProductDetailPresenter.swift in Sources */,
 				7607EA74227B533800AA36E0 /* Reactive.swift in Sources */,
 				76254C80227F0A8900C3B8D4 /* AppCoordinator.swift in Sources */,

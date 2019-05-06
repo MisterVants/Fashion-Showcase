@@ -12,6 +12,7 @@ protocol ProductViewModel {
     var productName: String {get}
     var productPrice: String {get}
     var supplementaryPrice: NSAttributedString? {get}
+    var discountAmount: String? {get}
     var isProductOnSale: Bool {get}
 //    var availableSizes: []
     var productImageData: Reactive<Data?> {get}
@@ -53,6 +54,11 @@ extension Product {
             
             let slashedPrice = NSAttributedString(string: product.regularPrice, attributes: [NSAttributedString.Key.strikethroughStyle : 2])
             return slashedPrice
+        }
+        
+        var discountAmount: String? {
+            guard !product.discountPercent.isEmpty else { return nil }
+            return "\(product.discountPercent) OFF"
         }
         
         var isProductOnSale: Bool {

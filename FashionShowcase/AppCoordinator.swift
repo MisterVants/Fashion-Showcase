@@ -46,6 +46,14 @@ class AppCoordinator: Coordinator {
 
 extension AppCoordinator {
     
+    func didSelectProduct(_ viewModel: ProductViewModel) {
+        let detailViewController = makeProductDetailViewController(viewModel)
+        navigationController.present(detailViewController, animated: true, completion: nil)
+    }
+}
+
+extension AppCoordinator {
+    
     func makeRootViewController() -> UIViewController {
         let viewController = ShowcaseViewController()
         let presenter = ShowcaseViewPresenter(catalogue: productsCatalogue, api: productsApi, factory: viewModelFactory)
@@ -54,9 +62,17 @@ extension AppCoordinator {
         presenter.didOpenShoppingCart = { //[unowned self] in
             print("open shop cart")
         }
-        presenter.didSelectProduct = {
-            print("selected product")
+        presenter.didSelectProduct = { [unowned self] in
+            self.didSelectProduct($0)
         }
+        return viewController
+    }
+    
+    func makeProductDetailViewController(_ viewModel: ProductViewModel) -> UIViewController {
+        let viewController = ProductDetailViewController()
+        let presenter = ProductDetailViewPresenter(product: viewModel)
+        viewController.presenter = presenter
+        
         return viewController
     }
 }

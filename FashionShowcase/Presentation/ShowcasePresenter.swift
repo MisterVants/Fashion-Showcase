@@ -27,7 +27,7 @@ class ShowcaseViewPresenter: ShowcasePresenter {
     let catalogue: ProductCatalogue
     let factory: ViewModelFactory
     
-    var didSelectProduct: (() -> Void)?
+    var didSelectProduct: ((ProductViewModel) -> Void)?
     var didOpenShoppingCart: (() -> Void)?
     
     var displayedProducts: [ProductViewModel] = []
@@ -53,7 +53,8 @@ class ShowcaseViewPresenter: ShowcasePresenter {
     }
     
     func selectedItem(at indexPath: IndexPath) {
-        didSelectProduct?()
+        guard indexPath.row >= 0 && indexPath.row < displayedProducts.count else { return }
+        didSelectProduct?(displayedProducts[indexPath.row])
     }
     
     func loadShowcase() {
