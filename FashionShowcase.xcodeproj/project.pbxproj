@@ -55,6 +55,10 @@
 		766011DC227A403C00C05E3D /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 766011D8227A402300C05E3D /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		766011DD227A404100C05E3D /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 766011D7227A402300C05E3D /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		766131C0227BE56A009DDA6C /* URLSession+Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766131BF227BE56A009DDA6C /* URLSession+Protocols.swift */; };
+		76BA94DC227FCE4B0087D5BB /* ShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BA94DB227FCE4B0087D5BB /* ShoppingCartViewController.swift */; };
+		76BA94DF227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BA94DD227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift */; };
+		76BA94E0227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76BA94DE227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib */; };
+		76BA94E2227FD1A30087D5BB /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BA94E1227FD1A30087D5BB /* UITableView+Extension.swift */; };
 		76C9492D227CAAF6007ECA9A /* ProductsAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C9492C227CAAF6007ECA9A /* ProductsAPISpec.swift */; };
 		76C9492F227CC37F007ECA9A /* ProductsCatalogueSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C9492E227CC37F007ECA9A /* ProductsCatalogueSpec.swift */; };
 		76C94931227CCD4D007ECA9A /* ProductsShoppingCartSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C94930227CCD4D007ECA9A /* ProductsShoppingCartSpec.swift */; };
@@ -144,6 +148,10 @@
 		766011D7227A402300C05E3D /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		766011D8227A402300C05E3D /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		766131BF227BE56A009DDA6C /* URLSession+Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Protocols.swift"; sourceTree = "<group>"; };
+		76BA94DB227FCE4B0087D5BB /* ShoppingCartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartViewController.swift; sourceTree = "<group>"; };
+		76BA94DD227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartTableViewCell.swift; sourceTree = "<group>"; };
+		76BA94DE227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingCartTableViewCell.xib; sourceTree = "<group>"; };
+		76BA94E1227FD1A30087D5BB /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		76C9492C227CAAF6007ECA9A /* ProductsAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsAPISpec.swift; sourceTree = "<group>"; };
 		76C9492E227CC37F007ECA9A /* ProductsCatalogueSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCatalogueSpec.swift; sourceTree = "<group>"; };
 		76C94930227CCD4D007ECA9A /* ProductsShoppingCartSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsShoppingCartSpec.swift; sourceTree = "<group>"; };
@@ -182,6 +190,9 @@
 				76254C79227E668100C3B8D4 /* ProductCollectionViewCell.swift */,
 				761EE3CF227F7E7400A588C4 /* ProductDetailViewController.swift */,
 				761EE3D0227F7E7400A588C4 /* ProductDetailViewController.xib */,
+				76BA94DB227FCE4B0087D5BB /* ShoppingCartViewController.swift */,
+				76BA94DD227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift */,
+				76BA94DE227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib */,
 				76254C7B227E668E00C3B8D4 /* ShowcaseViewController.swift */,
 				7607EA4D227B4A2000AA36E0 /* ShowcasePresenter.swift */,
 				7607EA51227B4A7F00AA36E0 /* ProductDetailPresenter.swift */,
@@ -230,6 +241,7 @@
 				7607EA73227B533800AA36E0 /* Reactive.swift */,
 				7607EA75227B535E00AA36E0 /* ReusableViewProtocol.swift */,
 				76254C7D227E695800C3B8D4 /* UICollectionView+Extension.swift */,
+				76BA94E1227FD1A30087D5BB /* UITableView+Extension.swift */,
 				76254C83227F0F2200C3B8D4 /* UIView+Extension.swift */,
 			);
 			path = Utilities;
@@ -456,6 +468,7 @@
 				761EE3CB227F2BDF00A588C4 /* Gotham-Bold.otf in Resources */,
 				766011C12279F13200C05E3D /* LaunchScreen.storyboard in Resources */,
 				761EE3CC227F2BDF00A588C4 /* Gotham-Light.otf in Resources */,
+				76BA94E0227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib in Resources */,
 				761EE3CD227F2BDF00A588C4 /* Gotham-Medium.otf in Resources */,
 				761EE3CA227F2BDF00A588C4 /* Gotham-Black.otf in Resources */,
 				761EE3D2227F7E7400A588C4 /* ProductDetailViewController.xib in Resources */,
@@ -496,13 +509,16 @@
 				7607EA4A227B49FF00AA36E0 /* ProductSize.swift in Sources */,
 				7607EA4E227B4A2000AA36E0 /* ShowcasePresenter.swift in Sources */,
 				7607EA48227B49F000AA36E0 /* Product.swift in Sources */,
+				76BA94DC227FCE4B0087D5BB /* ShoppingCartViewController.swift in Sources */,
 				76254C7C227E668E00C3B8D4 /* ShowcaseViewController.swift in Sources */,
 				7607EA5A227B4B0800AA36E0 /* FSError.swift in Sources */,
 				76254C7E227E695800C3B8D4 /* UICollectionView+Extension.swift in Sources */,
+				76BA94DF227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift in Sources */,
 				761EE3D1227F7E7400A588C4 /* ProductDetailViewController.swift in Sources */,
 				7607EA52227B4A7F00AA36E0 /* ProductDetailPresenter.swift in Sources */,
 				7607EA74227B533800AA36E0 /* Reactive.swift in Sources */,
 				76254C80227F0A8900C3B8D4 /* AppCoordinator.swift in Sources */,
+				76BA94E2227FD1A30087D5BB /* UITableView+Extension.swift in Sources */,
 				7607EA6C227B50EF00AA36E0 /* ProductsDto.swift in Sources */,
 				7607EA4C227B4A0A00AA36E0 /* ProductsAPI.swift in Sources */,
 				766011B92279F13000C05E3D /* ViewController.swift in Sources */,

@@ -9,9 +9,18 @@
 import Foundation
 
 protocol ShoppingCartPresenter {
-    
+    var numberOfCartItems: Int {get}
 }
 
-class ShoppingCartViewPresenter {
+class ShoppingCartViewPresenter: ShoppingCartPresenter {
     
+    let shoppingCart: ProductShoppingCart
+    
+    init(shoppingCart: ProductShoppingCart) {
+        self.shoppingCart = shoppingCart
+    }
+    
+    var numberOfCartItems: Int {
+        return 0
+    }
 }

@@ -22,6 +22,7 @@ class AppCoordinator: Coordinator {
     let productsCatalogue: ProductCatalogue
     let productsApi: ProductsAPI
     let networkClient: NetworkClient
+    var shoppingCart: ProductShoppingCart
     
     var rootViewController: UIViewController {
         return navigationController
@@ -35,6 +36,7 @@ class AppCoordinator: Coordinator {
         self.networkClient = NetworkClient()
         self.productsApi = APIWrapper(client: networkClient)
         self.viewModelFactory = ViewModelFactory(dataClient: networkClient)
+        self.shoppingCart = ProductShoppingCart()
     }
     
     func start() {
@@ -50,6 +52,11 @@ extension AppCoordinator {
         let detailViewController = makeProductDetailViewController(viewModel)
         navigationController.present(detailViewController, animated: true, completion: nil)
     }
+    
+    func didOpenShoppingCart() {
+        let shoppingCartViewController = makeShoppingCartViewController()
+        navigationController.pushViewController(shoppingCartViewController, animated: true)
+    }
 }
 
 extension AppCoordinator {
@@ -59,8 +66,8 @@ extension AppCoordinator {
         let presenter = ShowcaseViewPresenter(catalogue: productsCatalogue, api: productsApi, factory: viewModelFactory)
         viewController.presenter = presenter
         presenter.delegate = viewController
-        presenter.didOpenShoppingCart = { //[unowned self] in
-            print("open shop cart")
+        presenter.didOpenShoppingCart = { [unowned self] in
+            self.didOpenShoppingCart()
         }
         presenter.didSelectProduct = { [unowned self] in
             self.didSelectProduct($0)
@@ -71,6 +78,14 @@ extension AppCoordinator {
     func makeProductDetailViewController(_ viewModel: ProductViewModel) -> UIViewController {
         let viewController = ProductDetailViewController()
         let presenter = ProductDetailViewPresenter(product: viewModel)
+        viewController.presenter = presenter
+        
+        return viewController
+    }
+    
+    func makeShoppingCartViewController() -> UIViewController {
+        let viewController = ShoppingCartViewController()
+        let presenter = ShoppingCartViewPresenter(shoppingCart: shoppingCart)
         viewController.presenter = presenter
         
         return viewController

@@ -34,10 +34,19 @@ class ShowcaseViewController: UIViewController {
         collectionView.delegate = self
         
         view.addSubview(collectionView)
+        
+        
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didPressShoppingCartButton(_:)))
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     private func layoutView() {
         collectionView.constraintInside(view.safeAreaLayoutGuide)
+    }
+    
+    @objc
+    func didPressShoppingCartButton(_ sender: UIButton) {
+        presenter?.openShoppingCart()
     }
 }
 

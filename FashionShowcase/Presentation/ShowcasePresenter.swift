@@ -18,6 +18,7 @@ protocol ShowcasePresenter {
     var numberOfDisplayedItems: Int {get}
     func productViewModel(for indexPath: IndexPath) -> ProductViewModel?
     func selectedItem(at indexPath: IndexPath)
+    func openShoppingCart()
     func loadShowcase()
 }
 
@@ -55,6 +56,10 @@ class ShowcaseViewPresenter: ShowcasePresenter {
     func selectedItem(at indexPath: IndexPath) {
         guard indexPath.row >= 0 && indexPath.row < displayedProducts.count else { return }
         didSelectProduct?(displayedProducts[indexPath.row])
+    }
+    
+    func openShoppingCart() {
+        didOpenShoppingCart?()
     }
     
     func loadShowcase() {
