@@ -27,7 +27,8 @@ class ShoppingCartViewController: UIViewController {
     
     private func setupView() {
         tableView.dataSource = self
-        tableView.register(ShoppingCartTableViewCell.self)
+        tableView.delegate = self
+        tableView.register(uiNibforType: ShoppingCartTableViewCell.self)
         view.addSubview(tableView)
     }
     
@@ -46,5 +47,12 @@ extension ShoppingCartViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter?.numberOfCartItems ?? 0
+    }
+}
+
+extension ShoppingCartViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return ShoppingCartTableViewCell.estimatedHeight
     }
 }

@@ -18,7 +18,7 @@ class ProductsShoppingCartSpec: QuickSpec {
         var products: [Product]!
         
         var cart: ProductShoppingCart!
-        var targetProduct: Product!
+        var targetProduct: ShoppingCartProduct!
         
         beforeSuite {
             products = ProductsAPIStub().mockProducts()
@@ -26,7 +26,7 @@ class ProductsShoppingCartSpec: QuickSpec {
         
         beforeEach {
             cart = ProductShoppingCart(withCapacity: 10)
-            targetProduct = products.first
+            targetProduct = ShoppingCartProduct(product: products.first!, selectedSize: products.first!.sizes.first!)
         }
         
         describe("init") {
@@ -43,7 +43,7 @@ class ProductsShoppingCartSpec: QuickSpec {
             it("should return the sum of the amount of all items in the cart") {
                 let targetQuantity = 5
                 let expectedCount = products.count * targetQuantity
-                let productsDict = products.reduce(into: [Product : Int](), { $0[$1] = targetQuantity })
+                let productsDict = products.reduce(into: [ShoppingCartProduct : Int](), { $0[ShoppingCartProduct(product: $1, selectedSize: $1.sizes.first!)] = targetQuantity })
                 cart = ProductShoppingCart(products: productsDict)
                 expect(cart.count).to(equal(expectedCount))
             }
@@ -193,7 +193,7 @@ class ProductsShoppingCartSpec: QuickSpec {
         
         describe("delete all items") {
             it("should empty the cart") {
-                let productsDict = products.reduce(into: [Product : Int](), { $0[$1] = 5 })
+                let productsDict = products.reduce(into: [ShoppingCartProduct : Int](), { $0[ShoppingCartProduct(product: $1, selectedSize: $1.sizes.first!)] = 5 })
                 cart = ProductShoppingCart(products: productsDict)
                 cart.deleteAllItems()
                 expect(cart.isEmpty).to(beTrue())

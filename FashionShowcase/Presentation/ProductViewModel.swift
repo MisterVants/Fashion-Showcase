@@ -14,7 +14,7 @@ protocol ProductViewModel {
     var supplementaryPrice: NSAttributedString? {get}
     var discountAmount: String? {get}
     var isProductOnSale: Bool {get}
-//    var availableSizes: []
+    var availableSizes: [ProductSize] {get}
     var productImageData: Reactive<Data?> {get}
     var isLoadingImage: Reactive<Bool> {get}
     func loadProductImage()
@@ -63,6 +63,10 @@ extension Product {
         
         var isProductOnSale: Bool {
             return product.isOnSale
+        }
+        
+        var availableSizes: [ProductSize] {
+            return product.sizes
         }
         
         func loadProductImage() {

@@ -21,6 +21,10 @@ extension UITableView {
         register(cellClass, forCellReuseIdentifier: T.reuseIdentifier)
     }
     
+    func register<T: UITableViewCell>(uiNibforType cellClass: T.Type, bundle: Bundle? = nil) {
+        register(UINib(nibName: cellClass.reuseIdentifier, bundle: bundle), forCellReuseIdentifier: cellClass.reuseIdentifier)
+    }
+    
     func cellForRow<T: UITableViewCell>(at indexPath: IndexPath) -> T? {
         return cellForRow(at: indexPath) as? T
     }

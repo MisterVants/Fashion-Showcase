@@ -17,6 +17,7 @@ class ProductDetailViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var auxiliaryPriceLabel: UILabel!
     @IBOutlet weak var addToCartButton: UIButton!
+    @IBOutlet weak var sizesStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,9 @@ class ProductDetailViewController: UIViewController {
     
     @objc
     func didPressAddToCart(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        presenter?.addProductToCart()
+        dismiss(animated: true) {
+            self.presenter?.didFinishDismissingView()
+        }
     }
 }

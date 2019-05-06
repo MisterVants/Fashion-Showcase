@@ -53,9 +53,13 @@ extension AppCoordinator {
         navigationController.present(detailViewController, animated: true, completion: nil)
     }
     
-    func didOpenShoppingCart() {
+    func shouldOpenShoppingCart() {
         let shoppingCartViewController = makeShoppingCartViewController()
         navigationController.pushViewController(shoppingCartViewController, animated: true)
+    }
+    
+    func didAddProductToCart(isNew: Bool) {
+        
     }
 }
 
@@ -67,7 +71,7 @@ extension AppCoordinator {
         viewController.presenter = presenter
         presenter.delegate = viewController
         presenter.didOpenShoppingCart = { [unowned self] in
-            self.didOpenShoppingCart()
+            self.shouldOpenShoppingCart()
         }
         presenter.didSelectProduct = { [unowned self] in
             self.didSelectProduct($0)
@@ -79,7 +83,9 @@ extension AppCoordinator {
         let viewController = ProductDetailViewController()
         let presenter = ProductDetailViewPresenter(product: viewModel)
         viewController.presenter = presenter
-        
+        presenter.shouldOpenShoppingCart = { [unowned self] in
+            self.shouldOpenShoppingCart()
+        }
         return viewController
     }
     

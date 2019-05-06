@@ -27,18 +27,18 @@ protocol ShoppingCart {
 }
 
 class ProductShoppingCart: ShoppingCart {
-    typealias Item = Product
+    typealias Item = ShoppingCartProduct
     
-    private var products: [Product : Int] = [:]
+    private var products: [ShoppingCartProduct : Int] = [:]
     
     let capacityPerItem: Int
     
-    init(withCapacity capacity: Int = 99, products: [Product : Int] = [:]) {
+    init(withCapacity capacity: Int = 99, products: [ShoppingCartProduct : Int] = [:]) {
         self.capacityPerItem = capacity
         self.products = products
     }
     
-    var items: [Product] {
+    var items: [ShoppingCartProduct] {
         return Array(products.keys)
     }
     
@@ -52,27 +52,27 @@ class ProductShoppingCart: ShoppingCart {
     
     var totalPriceFull: Double {
         return products.reduce(0.0) {
-            $0 + (($1.key.regularPriceValue ?? 0.0) * Double($1.value))
+            $0 + (($1.key.product.regularPriceValue ?? 0.0) * Double($1.value))
         }
     }
     
     var totalPriceDiscounted: Double {
         return products.reduce(0.0) {
-            $0 + (($1.key.actualPriceValue ?? 0.0) * Double($1.value))
+            $0 + (($1.key.product.actualPriceValue ?? 0.0) * Double($1.value))
         }
     }
     
-    func getTotalAmount(of item: Product) -> Int {
+    func getTotalAmount(of item: ShoppingCartProduct) -> Int {
         return products[item] ?? 0
     }
     
-    func getTotalPrice(for item: Product, discounted: Bool) -> Double {
-        let itemPrice = (discounted ? item.actualPriceValue : item.regularPriceValue) ?? 0.0
+    func getTotalPrice(for item: ShoppingCartProduct, discounted: Bool) -> Double {
+        let itemPrice = (discounted ? item.product.actualPriceValue : item.product.regularPriceValue) ?? 0.0
         let quantity = Double(products[item] ?? 0)
         return itemPrice * quantity
     }
     
-    func addItem(_ item: Product) {
+    func addItem(_ item: ShoppingCartProduct) {
         if let quantity = products[item] {
             products[item] = min(quantity + 1, capacityPerItem)
         } else {
@@ -80,7 +80,7 @@ class ProductShoppingCart: ShoppingCart {
         }
     }
     
-    func removeItem(_ item: Product) {
+    func removeItem(_ item: ShoppingCartProduct) {
         if let quantity = products[item] {
             if quantity > 1 {
                 products[item] = quantity - 1
@@ -90,7 +90,7 @@ class ProductShoppingCart: ShoppingCart {
         }
     }
     
-    func deleteItem(_ item: Product) {
+    func deleteItem(_ item: ShoppingCartProduct) {
         products.removeValue(forKey: item)
     }
     
