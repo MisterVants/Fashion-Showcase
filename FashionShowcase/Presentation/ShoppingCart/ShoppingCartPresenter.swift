@@ -11,11 +11,15 @@ import Foundation
 protocol ShoppingCartPresenterDelegate: AnyObject {
     func onPromptToDeleteItem(shouldDelete: @escaping (Bool) -> Void)
     func onItemDeleted(at indexPath: IndexPath)
+    func onItemsChange()
+    func onCheckout(_ totalValue: String)
 }
 
 protocol ShoppingCartPresenter {
+    var checkoutTotal: String? {get}
     var numberOfCartItems: Int {get}
     func cartItemViewModel(for indexPath: IndexPath) -> ShoppingCartProductViewModel?
+    func checkoutOrder()
 }
 
 class ShoppingCartViewPresenter: ShoppingCartPresenter, ShoppingCartProductViewModelDelegate {
@@ -45,12 +49,22 @@ class ShoppingCartViewPresenter: ShoppingCartPresenter, ShoppingCartProductViewM
         return shoppingCart.count
     }
     
+    var checkoutTotal: String? {
+        return PriceFormatter.default.string(from: shoppingCart.totalPriceDiscounted)
+    }
+    
     func cartItemViewModel(for indexPath: IndexPath) -> ShoppingCartProductViewModel? {
         guard indexPath.row >= 0 && indexPath.row < productsInCart.count else { return nil }
         return productsInCart[indexPath.row]
     }
     
+    func checkoutOrder() {
+        guard let total = PriceFormatter.default.string(from: shoppingCart.totalPriceDiscounted) else { return }
+        delegate?.onCheckout(total)
+    }
+    
     func shouldChangeQuantityOf(_ cartProduct: ShoppingCartProduct, to newQuantity: Int) -> Bool {
+        defer { delegate?.onItemsChange() }
         if newQuantity > shoppingCart.getTotalAmount(of: cartProduct) {
             return shouldIncrement(cartProduct, to: newQuantity)
         } else {

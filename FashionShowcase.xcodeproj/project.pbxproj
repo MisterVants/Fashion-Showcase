@@ -195,18 +195,10 @@
 		7607EA42227B498800AA36E0 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				76254C79227E668100C3B8D4 /* ProductCollectionViewCell.swift */,
-				761EE3CF227F7E7400A588C4 /* ProductDetailViewController.swift */,
-				761EE3D0227F7E7400A588C4 /* ProductDetailViewController.xib */,
-				76BA94DB227FCE4B0087D5BB /* ShoppingCartViewController.swift */,
-				76BA94DD227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift */,
-				76BA94DE227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib */,
-				76254C7B227E668E00C3B8D4 /* ShowcaseViewController.swift */,
-				7607EA4D227B4A2000AA36E0 /* ShowcasePresenter.swift */,
-				7607EA51227B4A7F00AA36E0 /* ProductDetailPresenter.swift */,
-				7607EA4F227B4A7300AA36E0 /* ShoppingCartPresenter.swift */,
-				7607EA71227B51C100AA36E0 /* ProductViewModel.swift */,
-				76BA94E5228069B30087D5BB /* ShoppingCartProductViewModel.swift */,
+				765DFE982280CCD4008B897C /* Showcase */,
+				765DFE992280CCE5008B897C /* ProductDetail */,
+				765DFE9A2280CCF7008B897C /* ShoppingCart */,
+				765DFE9B2280CE07008B897C /* ViewModels */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -297,6 +289,47 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		765DFE982280CCD4008B897C /* Showcase */ = {
+			isa = PBXGroup;
+			children = (
+				76254C7B227E668E00C3B8D4 /* ShowcaseViewController.swift */,
+				7607EA4D227B4A2000AA36E0 /* ShowcasePresenter.swift */,
+				76254C79227E668100C3B8D4 /* ProductCollectionViewCell.swift */,
+			);
+			path = Showcase;
+			sourceTree = "<group>";
+		};
+		765DFE992280CCE5008B897C /* ProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				761EE3CF227F7E7400A588C4 /* ProductDetailViewController.swift */,
+				761EE3D0227F7E7400A588C4 /* ProductDetailViewController.xib */,
+				7607EA51227B4A7F00AA36E0 /* ProductDetailPresenter.swift */,
+			);
+			path = ProductDetail;
+			sourceTree = "<group>";
+		};
+		765DFE9A2280CCF7008B897C /* ShoppingCart */ = {
+			isa = PBXGroup;
+			children = (
+				76BA94DB227FCE4B0087D5BB /* ShoppingCartViewController.swift */,
+				76BA94DD227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift */,
+				76BA94DE227FCF7C0087D5BB /* ShoppingCartTableViewCell.xib */,
+				7607EA4F227B4A7300AA36E0 /* ShoppingCartPresenter.swift */,
+			);
+			path = ShoppingCart;
+			sourceTree = "<group>";
+		};
+		765DFE9B2280CE07008B897C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				76254C85227F1EFE00C3B8D4 /* ViewModelFactory.swift */,
+				7607EA71227B51C100AA36E0 /* ProductViewModel.swift */,
+				76BA94E5228069B30087D5BB /* ShoppingCartProductViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		766011AA2279F13000C05E3D = {
 			isa = PBXGroup;
 			children = (
@@ -326,7 +359,6 @@
 				765DFE962280A517008B897C /* AppColors.swift */,
 				766011B82279F13000C05E3D /* ViewController.swift */,
 				76254C7F227F0A8900C3B8D4 /* AppCoordinator.swift */,
-				76254C85227F1EFE00C3B8D4 /* ViewModelFactory.swift */,
 				7607EA42227B498800AA36E0 /* Presentation */,
 				7607EA43227B499F00AA36E0 /* Domain */,
 				7607EA45227B49B500AA36E0 /* Network */,

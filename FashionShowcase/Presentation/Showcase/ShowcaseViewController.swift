@@ -14,7 +14,7 @@ class ShowcaseViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let collectionView              = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor  = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+        collectionView.backgroundColor  = UIColor.App.backgroundLightGray
         collectionView.register(ProductCollectionViewCell.self)
         return collectionView
     }()
