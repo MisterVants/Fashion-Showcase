@@ -33,8 +33,14 @@ class ShoppingCartTableViewCell: UITableViewCell {
         
         productNameLabel.text = viewModel?.productName
         productSizeLabel.text = viewModel?.productSize
-        priceLabel.text = viewModel?.productPrice
-        auxiliaryPriceLabel.attributedText = viewModel?.supplementaryPrice
+        
+        viewModel?.productPrice.bindAndUpdate { [weak self] price in
+            self?.priceLabel.text = price
+        }
+        
+        viewModel?.supplementaryPrice.bindAndUpdate { [weak self] slashedPrice in
+            self?.auxiliaryPriceLabel.attributedText = slashedPrice
+        }
         
         viewModel?.quantity.bindAndUpdate { [weak self] quantity in
             self?.quantityStepper.value = Double(quantity)
@@ -57,12 +63,18 @@ class ShoppingCartTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        productImageView.image = nil
+        productNameLabel.text = nil
+        productSizeLabel.text = nil
+        priceLabel.text = nil
+        auxiliaryPriceLabel.attributedText = nil
+        quantityLabel.text = nil
+        quantityStepper.value = 0
         viewModel = nil
     }
     
     @objc
     func stepperValueChanged(_ sender: UIStepper) {
-        viewModel?.changeQuantity(to: Int(sender.value))
+        viewModel?.shouldChangeQuantity(to: Int(sender.value))
     }
 }

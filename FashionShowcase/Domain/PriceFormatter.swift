@@ -24,4 +24,8 @@ class PriceFormatter {
         let cleanString = string.replacingOccurrences(of: " ", with: "")
         return numberFormatter.number(from: cleanString)?.doubleValue
     }
+    
+    func string(from number: Double) -> String? {
+        return numberFormatter.string(from: NSNumber(value: number))
+    }
 }

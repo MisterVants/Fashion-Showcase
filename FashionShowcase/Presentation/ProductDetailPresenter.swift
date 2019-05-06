@@ -40,14 +40,12 @@ class ProductDetailViewPresenter: ProductDetailPresenter {
     
     func selectSize(index: Int) {
         guard index >= 0 && index < viewModel.availableSizes.count else { return }
-        print("selecting size: \(viewModel.availableSizes[index])")
         self.selectedSize = viewModel.availableSizes[index]
         delegate?.onSizeSelect(index)
     }
 
     func addProductToCart() {
         guard let selectedSize = selectedSize else { return }
-        print("adding to cart with size: \(selectedSize)")
         let productToAdd = ShoppingCartProduct(product: viewModel.getUnderlyingModel(), selectedSize: selectedSize)
         addedNewProduct = shoppingCart.getTotalAmount(of: productToAdd) == 0
         shoppingCart.addItem(productToAdd)

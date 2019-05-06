@@ -11,14 +11,14 @@ import Foundation
 protocol ShoppingCartProductViewModel {
     var delegate: ShoppingCartProductViewModelDelegate? {get set}
     var productName: String {get}
-    var productPrice: String {get}
     var productSize: String {get}
-    var supplementaryPrice: NSAttributedString? {get}
+    var productPrice: Reactive<String> {get}
+    var supplementaryPrice: Reactive<NSAttributedString?> {get}
     var quantity: Reactive<Int> {get}
     var quantityString: Reactive<String> {get}
     var productImageData: Reactive<Data?> {get}
     func loadProductImage()
-    func changeQuantity(to newQuantity: Int)
+    func shouldChangeQuantity(to newQuantity: Int)
     func matches(_ product: ShoppingCartProduct) -> Bool
 }
 
@@ -33,6 +33,8 @@ extension ShoppingCartProduct {
         let cartProduct: ShoppingCartProduct
         let client: DataClient
         
+        var productPrice: Reactive<String>
+        var supplementaryPrice: Reactive<NSAttributedString?>
         var quantity: Reactive<Int>
         var quantityString: Reactive<String>
         var productImageData: Reactive<Data?>
@@ -47,33 +49,22 @@ extension ShoppingCartProduct {
         init(from cartProduct: ShoppingCartProduct, quantity: Int, dataClient: DataClient) {
             self.cartProduct = cartProduct
             self.client = dataClient
-            self.quantity = Reactive(quantity)
-            self.quantityString = Reactive("\(quantity)")
+            self.productPrice = Reactive("")
+            self.supplementaryPrice = Reactive(nil)
+            self.quantity = Reactive(0)
+            self.quantityString = Reactive("")
             self.productImageData = Reactive(nil)
             self.isLoadingImage = Reactive(false)
+            
+            self.changeQuantity(to: quantity)
         }
         
         var productName: String {
             return product.name
         }
         
-        var productPrice: String {
-            return product.actualPrice
-        }
-        
         var productSize: String {
             return "TAMANHO: \(cartProduct.selectedSize.size)"
-        }
-        
-        var supplementaryPrice: NSAttributedString? {
-            guard
-                product.isOnSale,
-                let actualPrice = product.actualPriceValue,
-                let regularPrice = product.regularPriceValue,
-                actualPrice != regularPrice else { return nil }
-            
-            let slashedPrice = NSAttributedString(string: product.regularPrice, attributes: [NSAttributedString.Key.strikethroughStyle : 2])
-            return slashedPrice
         }
         
         func loadProductImage() {
@@ -89,10 +80,9 @@ extension ShoppingCartProduct {
             }
         }
         
-        func changeQuantity(to newQuantity: Int) {
+        func shouldChangeQuantity(to newQuantity: Int) {
             if delegate?.shouldChangeQuantityOf(self.cartProduct, to: newQuantity) == true {
-                quantity.value = newQuantity
-                quantityString.value = "\(newQuantity)"
+                changeQuantity(to: newQuantity)
             } else {
                 quantity.value = quantity.value // Trigger stepper binding
             }
@@ -100,6 +90,30 @@ extension ShoppingCartProduct {
         
         func matches(_ product: ShoppingCartProduct) -> Bool {
             return cartProduct == product ? true : false
+        }
+        
+        private func changeQuantity(to newQuantity: Int) {
+            quantity.value = newQuantity
+            quantityString.value = "\(newQuantity)"
+            
+            if let price = product.actualPriceValue {
+                let totalPrice = price * Double(newQuantity)
+                if let priceString = PriceFormatter.default.string(from: totalPrice) {
+                    productPrice.value = priceString
+                }
+            }
+            
+            if product.isOnSale,
+                let actualPrice = product.actualPriceValue,
+                let regularPrice = product.regularPriceValue,
+                actualPrice != regularPrice {
+                
+                let totalPrice = regularPrice * Double(newQuantity)
+                if let priceString = PriceFormatter.default.string(from: totalPrice) {
+                    let slashedPrice = NSAttributedString(string: priceString, attributes: [NSAttributedString.Key.strikethroughStyle : 2])
+                    supplementaryPrice.value = slashedPrice
+                }
+            }
         }
     }
 }
