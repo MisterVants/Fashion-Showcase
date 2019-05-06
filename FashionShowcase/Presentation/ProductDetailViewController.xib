@@ -52,10 +52,10 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xh5-1z-N6W">
+                        <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xh5-1z-N6W">
                             <rect key="frame" x="64" y="40" width="192" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="32" id="Yd5-cD-GSS"/>
+                                <constraint firstAttribute="height" constant="32" id="WAC-Mn-9ul"/>
                             </constraints>
                         </stackView>
                     </subviews>

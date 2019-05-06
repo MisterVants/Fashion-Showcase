@@ -81,10 +81,13 @@ extension AppCoordinator {
     
     func makeProductDetailViewController(_ viewModel: ProductViewModel) -> UIViewController {
         let viewController = ProductDetailViewController()
-        let presenter = ProductDetailViewPresenter(product: viewModel)
+        let presenter = ProductDetailViewPresenter(product: viewModel, shoppingCart: shoppingCart)
         viewController.presenter = presenter
-        presenter.shouldOpenShoppingCart = { [unowned self] in
-            self.shouldOpenShoppingCart()
+        presenter.delegate = viewController
+        presenter.shouldOpenShoppingCart = { [unowned self] shouldOpen in
+            if shouldOpen {
+                self.shouldOpenShoppingCart()
+            }
         }
         return viewController
     }

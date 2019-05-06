@@ -18,6 +18,7 @@ protocol ProductViewModel {
     var productImageData: Reactive<Data?> {get}
     var isLoadingImage: Reactive<Bool> {get}
     func loadProductImage()
+    func getUnderlyingModel() -> Product
 }
 
 extension Product {
@@ -80,6 +81,10 @@ extension Product {
                 self?.isLoadingImage.value = false
                 self?.productImageData.value = try? result.get()
             }
+        }
+        
+        func getUnderlyingModel() -> Product {
+            return product
         }
     }
 }
