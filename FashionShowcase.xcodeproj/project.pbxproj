@@ -44,6 +44,8 @@
 		76254C84227F0F2200C3B8D4 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76254C83227F0F2200C3B8D4 /* UIView+Extension.swift */; };
 		76254C86227F1EFE00C3B8D4 /* ViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76254C85227F1EFE00C3B8D4 /* ViewModelFactory.swift */; };
 		7627164D227DED4200EEF858 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627164C227DED4200EEF858 /* PriceFormatter.swift */; };
+		765DFE952280A4F3008B897C /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DFE942280A4F3008B897C /* UIColor+Extension.swift */; };
+		765DFE972280A517008B897C /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DFE962280A517008B897C /* AppColors.swift */; };
 		766011B72279F13000C05E3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766011B62279F13000C05E3D /* AppDelegate.swift */; };
 		766011B92279F13000C05E3D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766011B82279F13000C05E3D /* ViewController.swift */; };
 		766011BC2279F13000C05E3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766011BA2279F13000C05E3D /* Main.storyboard */; };
@@ -137,6 +139,8 @@
 		76254C83227F0F2200C3B8D4 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		76254C85227F1EFE00C3B8D4 /* ViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelFactory.swift; sourceTree = "<group>"; };
 		7627164C227DED4200EEF858 /* PriceFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatter.swift; sourceTree = "<group>"; };
+		765DFE942280A4F3008B897C /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		765DFE962280A517008B897C /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		766011B32279F13000C05E3D /* FashionShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FashionShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		766011B62279F13000C05E3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		766011B82279F13000C05E3D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 				76254C7D227E695800C3B8D4 /* UICollectionView+Extension.swift */,
 				76BA94E1227FD1A30087D5BB /* UITableView+Extension.swift */,
 				76254C83227F0F2200C3B8D4 /* UIView+Extension.swift */,
+				765DFE942280A4F3008B897C /* UIColor+Extension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -318,6 +323,7 @@
 			children = (
 				766011B62279F13000C05E3D /* AppDelegate.swift */,
 				7607EA5B227B4B2B00AA36E0 /* AppFonts.swift */,
+				765DFE962280A517008B897C /* AppColors.swift */,
 				766011B82279F13000C05E3D /* ViewController.swift */,
 				76254C7F227F0A8900C3B8D4 /* AppCoordinator.swift */,
 				76254C85227F1EFE00C3B8D4 /* ViewModelFactory.swift */,
@@ -510,6 +516,7 @@
 				766131C0227BE56A009DDA6C /* URLSession+Protocols.swift in Sources */,
 				76254C86227F1EFE00C3B8D4 /* ViewModelFactory.swift in Sources */,
 				7607EA76227B535E00AA36E0 /* ReusableViewProtocol.swift in Sources */,
+				765DFE952280A4F3008B897C /* UIColor+Extension.swift in Sources */,
 				7627164D227DED4200EEF858 /* PriceFormatter.swift in Sources */,
 				7607EA72227B51C100AA36E0 /* ProductViewModel.swift in Sources */,
 				7607EA4A227B49FF00AA36E0 /* ProductSize.swift in Sources */,
@@ -519,6 +526,7 @@
 				76254C7C227E668E00C3B8D4 /* ShowcaseViewController.swift in Sources */,
 				7607EA5A227B4B0800AA36E0 /* FSError.swift in Sources */,
 				76254C7E227E695800C3B8D4 /* UICollectionView+Extension.swift in Sources */,
+				765DFE972280A517008B897C /* AppColors.swift in Sources */,
 				76BA94E6228069B30087D5BB /* ShoppingCartProductViewModel.swift in Sources */,
 				76BA94DF227FCF7C0087D5BB /* ShoppingCartTableViewCell.swift in Sources */,
 				761EE3D1227F7E7400A588C4 /* ProductDetailViewController.swift in Sources */,

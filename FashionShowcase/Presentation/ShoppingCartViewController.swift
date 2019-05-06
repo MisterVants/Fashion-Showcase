@@ -26,6 +26,8 @@ class ShoppingCartViewController: UIViewController {
     }
     
     private func setupView() {
+        navigationItem.title = "CARRINHO"
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(uiNibforType: ShoppingCartTableViewCell.self)

@@ -31,7 +31,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAMANHO: PP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSt-HF-RkH">
-                        <rect key="frame" x="90" y="34" width="89" height="16"/>
+                        <rect key="frame" x="90" y="30" width="89" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -66,13 +66,13 @@
                     <constraint firstItem="u14-0V-QFX" firstAttribute="leading" secondItem="Sll-xp-1Lx" secondAttribute="trailing" constant="16" id="EnI-VZ-Rty"/>
                     <constraint firstItem="Sll-xp-1Lx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Mjx-rj-VRU"/>
                     <constraint firstItem="u14-0V-QFX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="YiT-Ur-byR"/>
-                    <constraint firstItem="qsO-D3-nyb" firstAttribute="top" secondItem="JSt-HF-RkH" secondAttribute="bottom" constant="4" id="ZKG-Nd-Mbh"/>
+                    <constraint firstItem="qsO-D3-nyb" firstAttribute="top" secondItem="JSt-HF-RkH" secondAttribute="bottom" constant="8" id="ZKG-Nd-Mbh"/>
                     <constraint firstItem="LnC-Ic-M2l" firstAttribute="centerY" secondItem="yM6-rI-cnU" secondAttribute="centerY" id="d50-Qc-rGM"/>
                     <constraint firstAttribute="bottom" secondItem="Sll-xp-1Lx" secondAttribute="bottom" id="eEH-nq-eSW"/>
                     <constraint firstAttribute="trailing" secondItem="yM6-rI-cnU" secondAttribute="trailing" constant="16" id="eFR-1f-0oo"/>
                     <constraint firstItem="l7Y-mZ-JOd" firstAttribute="trailing" secondItem="yM6-rI-cnU" secondAttribute="trailing" id="g30-Nv-qsr"/>
                     <constraint firstItem="Sll-xp-1Lx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="gn8-k4-4Xy"/>
-                    <constraint firstItem="JSt-HF-RkH" firstAttribute="top" secondItem="u14-0V-QFX" secondAttribute="bottom" constant="8" id="msD-Me-yge"/>
+                    <constraint firstItem="JSt-HF-RkH" firstAttribute="top" secondItem="u14-0V-QFX" secondAttribute="bottom" constant="4" id="msD-Me-yge"/>
                     <constraint firstItem="qsO-D3-nyb" firstAttribute="leading" secondItem="Sll-xp-1Lx" secondAttribute="trailing" constant="16" id="otc-HY-X4d"/>
                     <constraint firstItem="yM6-rI-cnU" firstAttribute="top" secondItem="l7Y-mZ-JOd" secondAttribute="bottom" constant="4" id="zz6-Kg-QOR"/>
                 </constraints>

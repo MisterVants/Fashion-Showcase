@@ -19,6 +19,9 @@ class ShowcaseViewController: UIViewController {
         return collectionView
     }()
     
+    private let backIcon = UIImage(named: "left-arrow")
+    private let cartIcon = UIImage(named: "shopping-cart")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -28,16 +31,19 @@ class ShowcaseViewController: UIViewController {
     }
     
     private func setupView() {
-        navigationItem.title = "App Title"
+        navigationItem.title = "LOJA"
+        
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = UIColor.App.smoothRed
+        navigationController?.navigationBar.backIndicatorImage = backIcon
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backIcon
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: cartIcon, style: .plain, target: self, action: #selector(didPressShoppingCartButton(_:)))
         
         collectionView.dataSource = self
         collectionView.delegate = self
         
         view.addSubview(collectionView)
-        
-        
-        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didPressShoppingCartButton(_:)))
-        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     private func layoutView() {

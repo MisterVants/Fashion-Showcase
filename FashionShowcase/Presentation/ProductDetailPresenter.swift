@@ -31,7 +31,7 @@ class ProductDetailViewPresenter: ProductDetailPresenter {
     
     weak var delegate: ProductDetailPresenterDelegate?
     
-    init(product: ProductViewModel, shoppingCart: ProductShoppingCart) {//}, dataClient: DataClient) {
+    init(product: ProductViewModel, shoppingCart: ProductShoppingCart) {
         self.viewModel = product
         self.shoppingCart = shoppingCart
         self.selectedSize = nil
@@ -40,8 +40,12 @@ class ProductDetailViewPresenter: ProductDetailPresenter {
     
     func selectSize(index: Int) {
         guard index >= 0 && index < viewModel.availableSizes.count else { return }
-        self.selectedSize = viewModel.availableSizes[index]
-        delegate?.onSizeSelect(index)
+        
+        let targetSize = viewModel.availableSizes[index]
+        if targetSize.isAvailable {
+            self.selectedSize = viewModel.availableSizes[index]
+            delegate?.onSizeSelect(index)
+        }
     }
 
     func addProductToCart() {

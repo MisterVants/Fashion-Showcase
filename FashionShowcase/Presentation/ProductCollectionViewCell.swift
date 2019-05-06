@@ -49,8 +49,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
     private lazy var auxiliaryPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.gothamMedium(11)
+        label.textColor = UIColor.App.textLightGray
         return label
     }()
+    
+    private let saleTag = SaleTag()
     
     private let activityIndicator = UIActivityIndicatorView(style: .gray)
     
@@ -63,12 +66,14 @@ class ProductCollectionViewCell: UICollectionViewCell {
     private func setupView() {
         clipsToBounds = true
         layer.cornerRadius = 5
+        saleTag.isHidden = true
         
         contentView.addSubview(productImageView)
         contentView.addSubview(infoView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(auxiliaryPriceLabel)
+        contentView.addSubview(saleTag)
         contentView.addSubview(activityIndicator)
     }
     
@@ -97,12 +102,19 @@ class ProductCollectionViewCell: UICollectionViewCell {
         
         let priceLabelConstraints: [NSLayoutConstraint] = [
             priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ]
         
         let auxPriceLabelConstraints: [NSLayoutConstraint] = [
             auxiliaryPriceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             auxiliaryPriceLabel.bottomAnchor.constraint(equalTo: priceLabel.topAnchor, constant: -4)
+        ]
+        
+        let saleTagConstraints: [NSLayoutConstraint] = [
+            saleTag.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            saleTag.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            saleTag.heightAnchor.constraint(equalToConstant: 24),
+            saleTag.widthAnchor.constraint(equalToConstant: 64)
         ]
 
         let activityIndicatorConstraints: [NSLayoutConstraint] = [
@@ -115,6 +127,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
                                nameLabelConstraints,
                                priceLabelConstraints,
                                auxPriceLabelConstraints,
+                               saleTagConstraints,
                                activityIndicatorConstraints].flatMap { $0 }
         
         NSLayoutConstraint.activate(viewConstraints)
@@ -126,6 +139,12 @@ class ProductCollectionViewCell: UICollectionViewCell {
         nameLabel.text = viewModel?.productName
         priceLabel.text = viewModel?.productPrice
         auxiliaryPriceLabel.attributedText = viewModel?.supplementaryPrice
+        
+        if viewModel?.isProductOnSale == true {
+            saleTag.isHidden = false
+            saleTag.text = viewModel?.discountAmount
+            priceLabel.textColor = UIColor.App.textGreen
+        }
         
         viewModel?.isLoadingImage.bindAndUpdate { [weak self] loading in
             DispatchQueue.main.async {
@@ -146,9 +165,13 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        priceLabel.textColor = .black
+        
         nameLabel.text = nil
         priceLabel.text = nil
         productImageView.image = nil
+        saleTag.isHidden = true
+        
         viewModel?.productImageData.free()
         viewModel?.isLoadingImage.free()
         viewModel = nil
@@ -162,6 +185,45 @@ class ProductCollectionViewCell: UICollectionViewCell {
     private func hideActivityIndicator() {
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
+class SaleTag: UIView {
+    
+    var text: String? {
+        get {
+            return label.text
+        }
+        set {
+            label.text = newValue
+        }
+    }
+    
+    private lazy var label: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.gothamMedium(11)
+        label.textColor = .white
+        label.textAlignment = NSTextAlignment.center
+        label.text = "00% OFF"
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.App.smoothRed
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = frame.height / 2
     }
     
     required init?(coder aDecoder: NSCoder) {

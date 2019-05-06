@@ -24,8 +24,23 @@ class ShoppingCartTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectionStyle = .none
         quantityStepper.addTarget(self, action: #selector(stepperValueChanged(_:)), for: .valueChanged)
+        styleView()
+    }
+    
+    private func styleView() {
+        selectionStyle = .none
+        
+        productNameLabel.font = UIFont.gothamMedium(13)
+        productSizeLabel.font = UIFont.gothamMedium(11)
+        priceLabel.font = UIFont.gothamBold(15)
+        auxiliaryPriceLabel.font = UIFont.gothamMedium(11)
+        quantityLabel.font = UIFont.gothamMedium(13)
+        
+        productSizeLabel.textColor = UIColor.App.textDarkGray
+        auxiliaryPriceLabel.textColor = UIColor.App.textLightGray
+        
+        quantityStepper.tintColor = UIColor.App.smoothRed
     }
     
     func setViewModel(_ viewModel: ShoppingCartProductViewModel?) {
@@ -70,6 +85,12 @@ class ShoppingCartTableViewCell: UITableViewCell {
         auxiliaryPriceLabel.attributedText = nil
         quantityLabel.text = nil
         quantityStepper.value = 0
+        
+        viewModel?.productPrice.free()
+        viewModel?.supplementaryPrice.free()
+        viewModel?.quantity.free()
+        viewModel?.quantityString.free()
+        viewModel?.productImageData.free()
         viewModel = nil
     }
     

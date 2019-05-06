@@ -17,11 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        setSharedStyle()
+        
         let appWindow = UIWindow(frame: UIScreen.main.bounds)
         window = appWindow
         appCoordinator = AppCoordinator(window: appWindow)
         appCoordinator?.start()
         return true
+    }
+    
+    func setSharedStyle() {
+        let titleTextAttributes = [NSAttributedString.Key.font: UIFont.gothamMedium(17),
+                                   NSAttributedString.Key.foregroundColor: UIColor.App.smoothRed]
+        UINavigationBar.appearance().titleTextAttributes = titleTextAttributes
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
