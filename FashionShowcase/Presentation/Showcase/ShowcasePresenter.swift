@@ -64,9 +64,11 @@ class ShowcaseViewPresenter: ShowcasePresenter {
     
     func loadShowcase() {
         
-//        if let products = catalogue.getProducts() {
-//
-//        } else {
+        if let products = catalogue.getProducts() {
+            displayedProducts = products.compactMap { self.factory.makeProductViewModel(from: $0) }
+            delegate?.onLoadFinish()
+            delegate?.onLoadSuccess()
+        } else {
             guard !isLoading else { return }
             isLoading = true
             
@@ -78,12 +80,23 @@ class ShowcaseViewPresenter: ShowcasePresenter {
                     self?.displayedProducts = loadedProducts.compactMap { self?.factory.makeProductViewModel(from: $0) }
                     self?.delegate?.onLoadSuccess()
                 case .failure(let error):
-                    break
+                    self?.handleFetchError(error)
                 }
                 self?.delegate?.onLoadFinish()
             }
-//        }
+        }
     }
     
-    
+    func handleFetchError(_ error: Error) {
+        print("Fetch error: \(error)")
+        if let error = error as? FSError {
+            if error.isNetworkError {
+                self.delegate?.onAlertableError("Could not load data", message: error.localizedDescription)
+            }
+            if case .badStatusCode(let statusCode) = error {
+                print("Products request returned with bad status code: \(statusCode.description)")
+                self.delegate?.onAlertableError("Could not load data", message: "Please try again later") // count error
+            }
+        }
+    }
 }

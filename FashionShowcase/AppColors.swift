@@ -14,7 +14,7 @@ extension UIColor {
     
     enum App {
         static let smoothRed = UIColor(hex: 0xfa565d)
-        static let textLightGray = UIColor(hex: 0xc3c3c3)
+        static let textLightGray = UIColor(hex: 0xc8c8c8)
         static let textDarkGray = UIColor(hex: 0x555759)
         static let textGreen = UIColor(hex: 0x12a83f)
         static let backgroundLightGray = UIColor(hex: 0xf2f2f2)

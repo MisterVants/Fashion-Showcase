@@ -19,15 +19,34 @@ class ShowcaseViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var infoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Não foi possível carregar a loja."
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.font = UIFont.gothamMedium(15)
+        label.textColor = UIColor.App.textDarkGray
+        return label
+    }()
+    
+    private lazy var refreshButton: UIButton = {
+        let button = UIButton()
+        button.setImage(refreshIcon, for: .normal)
+        button.tintColor = UIColor.App.smoothRed
+        return button
+    }()
+    
+    private let activityView = UIActivityIndicatorView(style: .whiteLarge)
     private let backIcon = UIImage(named: "left-arrow")
     private let cartIcon = UIImage(named: "shopping-cart")
+    private let refreshIcon = UIImage(named: "refresh")?.withRenderingMode(.alwaysTemplate)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         layoutView()
         
-        presenter?.loadShowcase()
+        startLoadingData()
     }
     
     private func setupView() {
@@ -44,22 +63,76 @@ class ShowcaseViewController: UIViewController {
         collectionView.delegate = self
         
         view.addSubview(collectionView)
+        view.addSubview(infoLabel)
+        view.addSubview(refreshButton)
+        view.addSubview(activityView)
+        
+        infoLabel.isHidden = true
+        refreshButton.isHidden = true
+        
+        refreshButton.addTarget(self, action: #selector(reloadData), for: .touchUpInside)
     }
     
     private func layoutView() {
         collectionView.constraintInside(view.safeAreaLayoutGuide)
+        
+        view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        
+        let infoLabelConstraints: [NSLayoutConstraint] = [
+            infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoLabel.topAnchor.constraint(equalTo: refreshButton.bottomAnchor, constant: 32)
+        ]
+        
+        let refreshButtonConstraints: [NSLayoutConstraint] = [
+            refreshButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            refreshButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -48)
+        ]
+        
+        let activityConstraints: [NSLayoutConstraint] = [
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        
+        let viewConstraints = [infoLabelConstraints,
+                               refreshButtonConstraints,
+                               activityConstraints].flatMap { $0 }
+        
+        NSLayoutConstraint.activate(viewConstraints)
+    }
+    
+    private func startLoadingData() {
+        activityView.isHidden = false
+        activityView.startAnimating()
+        presenter?.loadShowcase()
     }
     
     @objc
     func didPressShoppingCartButton(_ sender: UIButton) {
         presenter?.openShoppingCart()
     }
+    
+    @objc
+    func reloadData() {
+        infoLabel.isHidden = true
+        refreshButton.isHidden = true
+        activityView.isHidden = false
+        activityView.startAnimating()
+        presenter?.loadShowcase()
+    }
 }
 
 extension ShowcaseViewController: ShowcasePresenterDelegate {
     
     func onLoadFinish() {
-        
+        DispatchQueue.main.async {
+            self.activityView.stopAnimating()
+            self.activityView.isHidden = true
+            
+            if self.presenter?.numberOfDisplayedItems == 0 {
+                self.infoLabel.isHidden = false
+                self.refreshButton.isHidden = false
+            }
+        }
     }
     
     func onLoadSuccess() {
@@ -69,7 +142,11 @@ extension ShowcaseViewController: ShowcasePresenterDelegate {
     }
     
     func onAlertableError(_ title: String, message: String) {
-        
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }
 
