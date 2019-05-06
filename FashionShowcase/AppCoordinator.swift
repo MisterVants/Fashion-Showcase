@@ -94,9 +94,9 @@ extension AppCoordinator {
     
     func makeShoppingCartViewController() -> UIViewController {
         let viewController = ShoppingCartViewController()
-        let presenter = ShoppingCartViewPresenter(shoppingCart: shoppingCart)
+        let presenter = ShoppingCartViewPresenter(shoppingCart: shoppingCart, factory: viewModelFactory)
         viewController.presenter = presenter
-        
+        presenter.delegate = viewController
         return viewController
     }
 }

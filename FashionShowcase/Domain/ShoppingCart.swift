@@ -47,7 +47,7 @@ class ProductShoppingCart: ShoppingCart {
     }
     
     var count: Int {
-        return products.reduce(0, { $0 + $1.value })
+        return products.count
     }
     
     var totalPriceFull: Double {

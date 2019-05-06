@@ -37,11 +37,29 @@ class ShoppingCartViewController: UIViewController {
     }
 }
 
+extension ShoppingCartViewController: ShoppingCartPresenterDelegate {
+    
+    func onPromptToDeleteItem(shouldDelete: @escaping (Bool) -> Void) {
+        let alertController = UIAlertController(title: "Remover produto?",
+                                                message: "Deseja remover o produto do carrinho de compras?",
+                                                preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Remover", style: .destructive) { _ in shouldDelete(true) }
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel) { _ in shouldDelete(false) }
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func onItemDeleted(at indexPath: IndexPath) {
+        tableView.deleteRows(at: [indexPath], with: .left)
+    }
+}
+
 extension ShoppingCartViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ShoppingCartTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        
+        cell.setViewModel(presenter?.cartItemViewModel(for: indexPath))
         return cell
     }
     

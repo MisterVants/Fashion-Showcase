@@ -20,4 +20,9 @@ class ViewModelFactory {
         let viewModel = Product.ViewModel(from: product, dataClient: sharedClient)
         return viewModel
     }
+    
+    func makeShoppingCartProductViewModel(from cartProduct: ShoppingCartProduct, quantity: Int) -> ShoppingCartProductViewModel {
+        let viewModel = ShoppingCartProduct.ViewModel(from: cartProduct, quantity: quantity, dataClient: sharedClient)
+        return viewModel
+    }
 }

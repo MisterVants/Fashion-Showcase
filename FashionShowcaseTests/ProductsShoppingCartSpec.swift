@@ -40,9 +40,9 @@ class ProductsShoppingCartSpec: QuickSpec {
         }
         
         describe("items counting") {
-            it("should return the sum of the amount of all items in the cart") {
+            it("should return the amount of all different items in the cart") {
                 let targetQuantity = 5
-                let expectedCount = products.count * targetQuantity
+                let expectedCount = products.count
                 let productsDict = products.reduce(into: [ShoppingCartProduct : Int](), { $0[ShoppingCartProduct(product: $1, selectedSize: $1.sizes.first!)] = targetQuantity })
                 cart = ProductShoppingCart(products: productsDict)
                 expect(cart.count).to(equal(expectedCount))
