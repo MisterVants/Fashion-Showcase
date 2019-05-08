@@ -26,6 +26,16 @@ class ProductCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    private lazy var notFoundLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Imagem não\ndisponível"
+        label.font = UIFont.gothamMedium(13)
+        label.textColor = UIColor.App.textLightGray
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        return label
+    }()
+    
     private lazy var infoView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -67,7 +77,9 @@ class ProductCollectionViewCell: UICollectionViewCell {
         clipsToBounds = true
         layer.cornerRadius = 5
         saleTag.isHidden = true
+        notFoundLabel.isHidden = true
         
+        contentView.addSubview(notFoundLabel)
         contentView.addSubview(productImageView)
         contentView.addSubview(infoView)
         contentView.addSubview(nameLabel)
@@ -85,6 +97,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor, multiplier: ProductCollectionViewCell.imageAspectRatio)
+        ]
+        
+        let notFoundLabelConstraints: [NSLayoutConstraint] = [
+            notFoundLabel.centerXAnchor.constraint(equalTo: productImageView.centerXAnchor),
+            notFoundLabel.centerYAnchor.constraint(equalTo: productImageView.centerYAnchor)
         ]
         
         let infoViewConstraints: [NSLayoutConstraint] = [
@@ -123,6 +140,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         ]
         
         let viewConstraints = [imageViewConstraints,
+                               notFoundLabelConstraints,
                                infoViewConstraints,
                                nameLabelConstraints,
                                priceLabelConstraints,
@@ -156,6 +174,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 if let imageData = data, let image = UIImage(data: imageData) {
                     self?.productImageView.image = image
+                    self?.notFoundLabel.isHidden = true
+                } else {
+                    if viewModel?.isLoadingImage.value == false {
+                        self?.notFoundLabel.isHidden = false
+                    }
                 }
             }
         }
