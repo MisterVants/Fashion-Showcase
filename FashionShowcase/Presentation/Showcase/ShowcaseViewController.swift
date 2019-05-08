@@ -19,6 +19,25 @@ class ShowcaseViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var segmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl()
+        segmentedControl.backgroundColor = .white
+        segmentedControl.tintColor = .clear
+        segmentedControl.setTitleTextAttributes(
+            [NSAttributedString.Key.font : UIFont.gothamMedium(15),
+             NSAttributedString.Key.foregroundColor : UIColor.App.textDarkGray], for: .normal)
+        segmentedControl.setTitleTextAttributes(
+            [NSAttributedString.Key.font : UIFont.gothamMedium(15),
+             NSAttributedString.Key.foregroundColor : UIColor.App.smoothRed], for: .selected)
+        return segmentedControl
+    }()
+    
+    private lazy var segmentBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.App.smoothRed
+        return view
+    }()
+    
     private lazy var infoLabel: UILabel = {
         let label = UILabel()
         label.text = "Não foi possível carregar a loja."
@@ -36,6 +55,8 @@ class ShowcaseViewController: UIViewController {
         return button
     }()
     
+    private var segmentBarLeading: NSLayoutConstraint?
+    
     private let activityView = UIActivityIndicatorView(style: .whiteLarge)
     private let backIcon = UIImage(named: "left-arrow")
     private let cartIcon = UIImage(named: "shopping-cart")
@@ -45,13 +66,12 @@ class ShowcaseViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         layoutView()
+        fillView()
         
         startLoadingData()
     }
     
     private func setupView() {
-        navigationItem.title = "LOJA"
-        
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = UIColor.App.smoothRed
         navigationController?.navigationBar.backIndicatorImage = backIcon
@@ -63,6 +83,8 @@ class ShowcaseViewController: UIViewController {
         collectionView.delegate = self
         
         view.addSubview(collectionView)
+        view.addSubview(segmentedControl)
+        view.addSubview(segmentBar)
         view.addSubview(infoLabel)
         view.addSubview(refreshButton)
         view.addSubview(activityView)
@@ -71,12 +93,38 @@ class ShowcaseViewController: UIViewController {
         refreshButton.isHidden = true
         
         refreshButton.addTarget(self, action: #selector(reloadData), for: .touchUpInside)
+        segmentedControl.addTarget(self, action: #selector(didChangeSegment(_:)), for: .valueChanged)
     }
     
+    
+    
     private func layoutView() {
-        collectionView.constraintInside(view.safeAreaLayoutGuide)
-        
         view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        
+        let safeGuide = view.safeAreaLayoutGuide
+        
+        let numberOfSegments = CGFloat(presenter?.segmentSections.count ?? 1)
+        let segmentLeading = segmentBar.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor)
+        self.segmentBarLeading = segmentLeading
+        
+        let segmentedControlConstraints: [NSLayoutConstraint] = [
+            segmentedControl.topAnchor.constraint(equalTo: safeGuide.topAnchor),
+            segmentedControl.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor),
+            segmentedControl.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 44),
+            
+            segmentBar.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+            segmentBar.widthAnchor.constraint(equalTo: segmentedControl.widthAnchor, multiplier: 1 / numberOfSegments),
+            segmentBar.heightAnchor.constraint(equalToConstant: 4),
+            segmentLeading
+        ]
+        
+        let collectionConstraints: [NSLayoutConstraint] = [
+            collectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor)
+        ]
         
         let infoLabelConstraints: [NSLayoutConstraint] = [
             infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -93,11 +141,32 @@ class ShowcaseViewController: UIViewController {
             activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        let viewConstraints = [infoLabelConstraints,
+        let viewConstraints = [segmentedControlConstraints,
+                               collectionConstraints,
+                               infoLabelConstraints,
                                refreshButtonConstraints,
                                activityConstraints].flatMap { $0 }
         
         NSLayoutConstraint.activate(viewConstraints)
+    }
+    
+    private func fillView() {
+        navigationItem.title = presenter?.navigationTitle
+        
+        presenter?.segmentSections.forEach {
+            segmentedControl.insertSegment(withTitle: $0.title, at: $0.index, animated: false)
+        }
+        segmentedControl.selectedSegmentIndex = presenter?.currentSegmentIndex ?? 0
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let segmentWidth = segmentedControl.frame.width * 1 / CGFloat(segmentedControl.numberOfSegments)
+        segmentBar.frame = CGRect(x: segmentedControl.frame.origin.x + segmentWidth * CGFloat(segmentedControl.selectedSegmentIndex),
+                                  y: segmentedControl.frame.origin.y + segmentedControl.frame.height - 4,
+                                  width: segmentWidth,
+                                  height: 4)
     }
     
     private func startLoadingData() {
@@ -118,6 +187,19 @@ class ShowcaseViewController: UIViewController {
         activityView.isHidden = false
         activityView.startAnimating()
         presenter?.loadShowcase()
+    }
+    
+    @objc
+    func didChangeSegment(_ sender: UISegmentedControl) {
+        presenter?.changeDisplaySegment(sender.selectedSegmentIndex)
+        
+        let segmentWidth = self.segmentedControl.frame.width
+        let segmentCount = CGFloat(self.segmentedControl.numberOfSegments)
+        let selectedSegment = CGFloat(self.segmentedControl.selectedSegmentIndex)
+        self.segmentBarLeading?.constant = (segmentWidth / segmentCount) * selectedSegment
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
@@ -147,6 +229,13 @@ extension ShowcaseViewController: ShowcasePresenterDelegate {
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    func updateCollection(adding insertIndexes: [IndexPath], remove removeIndexes: [IndexPath]) {
+        collectionView.performBatchUpdates({
+            collectionView.deleteItems(at: removeIndexes)
+            collectionView.insertItems(at: insertIndexes)
+        }, completion: nil)
     }
 }
 

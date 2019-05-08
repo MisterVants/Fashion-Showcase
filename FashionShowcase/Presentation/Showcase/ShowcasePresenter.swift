@@ -12,17 +12,34 @@ protocol ShowcasePresenterDelegate: AnyObject {
     func onLoadFinish()
     func onLoadSuccess()
     func onAlertableError(_ title: String, message: String)
+    func updateCollection(adding insertIndexes: [IndexPath], remove removeIndexes: [IndexPath])
 }
 
 protocol ShowcasePresenter {
+    var navigationTitle: String {get}
+    var segmentSections: [(title: String, index: Int)] {get}
+    var currentSegmentIndex: Int {get}
     var numberOfDisplayedItems: Int {get}
     func productViewModel(for indexPath: IndexPath) -> ProductViewModel?
     func selectedItem(at indexPath: IndexPath)
+    func changeDisplaySegment(_ value: Int)
     func openShoppingCart()
     func loadShowcase()
 }
 
 class ShowcaseViewPresenter: ShowcasePresenter {
+    
+    enum DisplaySegment: Int, CaseIterable {
+        case all = 0
+        case onSale
+        
+        var title: String {
+            switch self {
+            case .all: return "Tudo"
+            case .onSale: return "Em Oferta"
+            }
+        }
+    }
     
     let api: ProductsAPI
     let catalogue: ProductCatalogue
@@ -32,8 +49,9 @@ class ShowcaseViewPresenter: ShowcasePresenter {
     var didOpenShoppingCart: (() -> Void)?
     
     var displayedProducts: [ProductViewModel] = []
-//    var allProducts: [ProductViewModel] = []
+    var allProducts: [ProductViewModel] = []
     var isLoading: Bool
+    var currentSegment: DisplaySegment
     
     weak var delegate: ShowcasePresenterDelegate?
     
@@ -42,6 +60,19 @@ class ShowcaseViewPresenter: ShowcasePresenter {
         self.catalogue = catalogue
         self.factory = factory
         self.isLoading = false
+        self.currentSegment = .all
+    }
+    
+    var navigationTitle: String {
+        return "LOJA"
+    }
+    
+    var segmentSections: [(title: String, index: Int)] {
+        return DisplaySegment.allCases.map { ($0.title, $0.rawValue) }
+    }
+    
+    var currentSegmentIndex: Int {
+        return currentSegment.rawValue
     }
     
     var numberOfDisplayedItems: Int {
@@ -62,10 +93,21 @@ class ShowcaseViewPresenter: ShowcasePresenter {
         didOpenShoppingCart?()
     }
     
+    func changeDisplaySegment(_ value: Int) {
+        guard let segment = DisplaySegment(rawValue: value) else { return }
+        
+        let currentDisplayedItems = displayedProducts
+        let itemsToDisplay = filterProducts(allProducts, by: segment)
+        let indexDiff = computeIndexDiff(itemsToDisplay: itemsToDisplay.map { $0.getUnderlyingModel() }, currentItems: currentDisplayedItems.map { $0.getUnderlyingModel() })
+        
+        displayedProducts = itemsToDisplay
+        delegate?.updateCollection(adding: indexDiff.inserted, remove: indexDiff.removed)
+    }
+    
     func loadShowcase() {
         
         if let products = catalogue.getProducts() {
-            displayedProducts = products.compactMap { self.factory.makeProductViewModel(from: $0) }
+            setViewModels(from: products)
             delegate?.onLoadFinish()
             delegate?.onLoadSuccess()
         } else {
@@ -77,7 +119,7 @@ class ShowcaseViewPresenter: ShowcasePresenter {
                 
                 switch result {
                 case .success(let loadedProducts):
-                    self?.displayedProducts = loadedProducts.compactMap { self?.factory.makeProductViewModel(from: $0) }
+                    self?.setViewModels(from: loadedProducts)
                     self?.delegate?.onLoadSuccess()
                 case .failure(let error):
                     self?.handleFetchError(error)
@@ -97,6 +139,19 @@ class ShowcaseViewPresenter: ShowcasePresenter {
                 print("Products request returned with bad status code: \(statusCode.description)")
                 self.delegate?.onAlertableError("Could not load data", message: "Please try again later") // count error
             }
+        }
+    }
+    
+    private func setViewModels(from products: [Product]) {
+        let productsViewModels = products.compactMap { self.factory.makeProductViewModel(from: $0) }
+        allProducts = productsViewModels
+        displayedProducts = filterProducts(productsViewModels, by: currentSegment)
+    }
+    
+    private func filterProducts(_ products: [ProductViewModel], by segment: DisplaySegment) -> [ProductViewModel] {
+        switch segment {
+        case .all: return products
+        case .onSale: return products.filter { $0.isProductOnSale }
         }
     }
 }
